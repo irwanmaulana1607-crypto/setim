@@ -1,8 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f5f1ea;
+  --foreground: #302a25;
+  --setim-surface: #fbf8f3;
+  --setim-surface-soft: #f0e9df;
+  --setim-border: rgba(48, 42, 37, 0.11);
+  --setim-border-strong: rgba(48, 42, 37, 0.17);
+  --setim-muted: #a09384;
+  --setim-secondary: #776b60;
+  --setim-accent: #a8795d;
+  --setim-soft: #e8dfd3;
+  --setim-accent-dark: #93694f;
+  --setim-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @theme inline {
@@ -12,15 +22,143 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body:has(.setim-bottom-nav) main {
+  padding-bottom: calc(4.75rem + env(safe-area-inset-bottom));
+}
+
+::selection {
+  background: rgba(168, 121, 93, 0.2);
+  color: var(--foreground);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(119, 107, 96, 0.35) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+  background-color: rgba(119, 107, 96, 0.35);
+}
+
+.setim-surface {
+  background: var(--setim-surface);
+  border: 1px solid var(--setim-border);
+  box-shadow: 0 14px 36px rgba(48, 42, 37, 0.055);
+}
+
+.setim-page-header {
+  background: color-mix(in srgb, var(--background) 91%, transparent);
+  border-bottom: 1px solid var(--setim-border);
+  backdrop-filter: blur(16px);
+}
+
+.setim-thread:hover {
+  background: rgba(232, 223, 211, 0.24);
+}
+
+.setim-action-row button {
+  min-height: 36px;
+  min-width: 36px;
+  border-radius: 10px;
+}
+
+.setim-action-row button:hover {
+  background: rgba(232, 223, 211, 0.7);
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:not(:disabled),
+a,
+input,
+textarea,
+select {
+  transition: color 160ms var(--setim-ease), background-color 160ms var(--setim-ease),
+    border-color 160ms var(--setim-ease), box-shadow 160ms var(--setim-ease),
+    opacity 160ms var(--setim-ease), transform 120ms var(--setim-ease);
+}
+
+button:not(:disabled):active,
+a:active {
+  transform: scale(0.985);
+}
+
+:focus-visible {
+  outline: 2px solid var(--setim-accent);
+  outline-offset: 3px;
+}
+
+.setim-popover {
+  animation: setim-popover-in 180ms var(--setim-ease) both;
+  transform-origin: bottom left;
+}
+
+.setim-skeleton {
+  background: linear-gradient(100deg, rgba(232, 223, 211, 0.45) 20%, rgba(245, 241, 234, 0.9) 45%, rgba(232, 223, 211, 0.45) 70%);
+  background-size: 200% 100%;
+  animation: setim-shimmer 1.8s ease-in-out infinite;
+}
+
+@keyframes setim-popover-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes setim-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+html[data-font-size="small"] body {
+  font-size: 0.9375rem;
+}
+
+html[data-font-size="large"] body {
+  font-size: 1.125rem;
+}
+
+html[data-reduce-motion="true"] *,
+html[data-reduce-motion="true"] *::before,
+html[data-reduce-motion="true"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  scroll-behavior: auto !important;
+  transition-duration: 0.01ms !important;
 }
